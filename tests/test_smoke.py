@@ -254,3 +254,35 @@ async def test_read_paper_abstract(server_params: StdioServerParameters) -> None
             text = result.contents[0].text
             assert "λτ" in text
             assert "Rayleigh quotient" in text
+
+
+@pytest.mark.asyncio
+async def test_suggest_params(server_params: StdioServerParameters) -> None:
+    async with stdio_client(server_params) as (read, write):
+        async with ClientSession(read, write) as session:
+            await session.initialize()
+
+            result = _ok(await session.call_tool("suggest_params", {
+                "n_items": 10000,
+                "n_dims": 768,
+            }))
+            assert "eps" in result
+            assert "k" in result
+            assert "topk" in result
+            assert "sigma" in result
+            assert "notes" in result
+            assert result["k"] == 25
+
+            result = _ok(await session.call_tool("suggest_params", {
+                "n_items": 10000,
+                "n_dims": 768,
+                "target_recall": 0.97,
+            }))
+            assert result["k"] >= 25
+            assert result["topk"] >= 4
+
+            result = _ok(await session.call_tool("suggest_params", {
+                "n_items": 50,
+                "n_dims": 128,
+            }))
+            assert result["k"] == 3

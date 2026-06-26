@@ -218,6 +218,43 @@ def build_server(config: ServerConfig | None = None) -> FastMCP:
         app_ctx.registry.remove(index_id)
         return {"status": "deleted", "index_id": index_id}
 
+    @server.tool()
+    def suggest_params(
+        n_items: int,
+        n_dims: int,
+        target_recall: float | None = None,
+    ) -> dict:
+        try:
+            from arrowspace_skills import suggest_params as _sp
+            base = _sp(n_items, n_dims)
+        except ImportError:
+            k = min(max(3, int(n_items / 50)), 25)
+            topk = 3 if k <= 5 else 4
+            eps = 0.1 if n_dims <= 128 else 0.2 if n_dims <= 768 else 0.5
+            base = {"eps": eps, "k": k, "topk": topk, "p": 2.0, "sigma": None}
+
+        notes = []
+        if target_recall is not None:
+            if target_recall > 0.95:
+                base["k"] = min(base["k"] + 5, 50)
+                base["topk"] = min(base["topk"] + 2, 10)
+                notes.append("Increased k and topk for high recall target.")
+            elif target_recall < 0.7:
+                base["k"] = max(base["k"] - 2, 3)
+                notes.append("Reduced k for lower recall target (faster).")
+
+        if base["sigma"] is None:
+            base["sigma"] = base["eps"]
+            notes.append("sigma aligned to eps (default).")
+
+        if n_dims > 512:
+            notes.append("High-dimensional data; consider PCA or feature selection for better results.")
+        if n_items < 100:
+            notes.append("Small dataset; results may be unstable. Consider adding more data.")
+
+        base["notes"] = " ".join(notes) if notes else "Defaults suitable for this dataset."
+        return base
+
     import importlib.resources as _res
 
     _PACKAGE = "arrowspace_mcp"
