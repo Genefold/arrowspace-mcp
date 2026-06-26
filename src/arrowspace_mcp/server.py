@@ -186,11 +186,17 @@ def build_server(config: ServerConfig | None = None) -> FastMCP:
             k = min(entry.aspace.nclusters, n, 8)
             if k < 1:
                 k = 1
-            from scipy.sparse.linalg import eigsh
+            if k >= n:
+                eigvecs = np.eye(n)
+            else:
+                from scipy.sparse.linalg import eigsh
 
-            _, eigvecs = eigsh(L, k=k, which="SM", tol=1e-6)
+                _, eigvecs = eigsh(L, k=k, which="SM", tol=1e-6)
 
-            from sklearn.cluster import KMeans
+            try:
+                from sklearn.cluster import KMeans
+            except ImportError:
+                return {"error": "scikit-learn is required: pip install arrowspace-mcp[spectral]"}
 
             km = KMeans(n_clusters=k, random_state=3407, n_init=10)
             assignments = km.fit_predict(eigvecs)

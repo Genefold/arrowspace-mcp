@@ -16,7 +16,7 @@ dependencies = [
 ]
 
 [project.optional-dependencies]
-spectral = ["scipy"]
+spectral = ["scipy", "scikit-learn"]
 all = ["arrowspace-mcp[spectral]"]
 
 [build-system]

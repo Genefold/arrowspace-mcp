@@ -208,9 +208,11 @@ dependencies = [
 
 [package.optional-dependencies]
 all = [
+    { name = "scikit-learn" },
     { name = "scipy" },
 ]
 spectral = [
+    { name = "scikit-learn" },
     { name = "scipy" },
 ]
 
@@ -220,6 +222,7 @@ requires-dist = [
     { name = "arrowspace-mcp", extras = ["spectral"], marker = "extra == 'all'" },
     { name = "mcp", specifier = ">=1.0" },
     { name = "numpy" },
+    { name = "scikit-learn", marker = "extra == 'spectral'" },
     { name = "scipy", marker = "extra == 'spectral'" },
     { name = "uvicorn" },
 ]
