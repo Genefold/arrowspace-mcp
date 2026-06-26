@@ -1,0 +1,35 @@
+[project]
+name = "arrowspace-mcp"
+version = "0.1.0"
+description = "MCP server for ArrowSpace spectral vector search"
+readme = "README.md"
+requires-python = ">=3.12"
+license = "Apache-2.0"
+authors = [
+    { name = "Genefold AI Ltd", email = "coderbot@genefold.ai" },
+]
+dependencies = [
+    "arrowspace>=0.24",
+    "mcp>=1.0",
+    "numpy",
+    "uvicorn",
+]
+
+[project.optional-dependencies]
+spectral = ["scipy"]
+all = ["arrowspace-mcp[spectral]"]
+
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+include = ["arrowspace_mcp*"]
+
+[project.scripts]
+arrowspace-mcp = "arrowspace_mcp.__main__:main"
+
+[project.urls]
+Homepage = "https://github.com/Genefold/arrowspace-mcp"
+Source = "https://github.com/Genefold/arrowspace-mcp"
