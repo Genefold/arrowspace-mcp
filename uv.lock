@@ -210,8 +210,12 @@ dependencies = [
 
 [package.optional-dependencies]
 all = [
+    { name = "arrowspace-skills" },
     { name = "scikit-learn" },
     { name = "scipy" },
+]
+skilled = [
+    { name = "arrowspace-skills" },
 ]
 spectral = [
     { name = "scikit-learn" },
@@ -230,7 +234,8 @@ dev = [
 requires-dist = [
     { name = "anyio" },
     { name = "arrowspace", specifier = ">=0.24" },
-    { name = "arrowspace-mcp", extras = ["spectral"], marker = "extra == 'all'" },
+    { name = "arrowspace-mcp", extras = ["spectral", "skilled"], marker = "extra == 'all'" },
+    { name = "arrowspace-skills", marker = "extra == 'skilled'", directory = "../arrowspace-skills" },
     { name = "mcp", specifier = ">=1.28" },
     { name = "numpy" },
     { name = "scikit-learn", marker = "extra == 'spectral'" },
@@ -238,7 +243,7 @@ requires-dist = [
     { name = "uvicorn" },
     { name = "zarr", specifier = ">=3.0" },
 ]
-provides-extras = ["spectral", "all"]
+provides-extras = ["spectral", "skilled", "all"]
 
 [package.metadata.requires-dev]
 dev = [
@@ -247,6 +252,23 @@ dev = [
     { name = "pytest", specifier = ">=9.1.1" },
     { name = "pytest-asyncio", specifier = ">=1.4.0" },
 ]
+
+[[package]]
+name = "arrowspace-skills"
+version = "0.4.0"
+source = { directory = "../arrowspace-skills" }
+dependencies = [
+    { name = "arrowspace" },
+    { name = "numpy" },
+]
+
+[package.metadata]
+requires-dist = [
+    { name = "arrowspace", specifier = ">=0.24" },
+    { name = "arrowspace-tuner", marker = "extra == 'tuner'", specifier = ">=0.3" },
+    { name = "numpy" },
+]
+provides-extras = ["tuner"]
 
 [[package]]
 name = "attrs"

@@ -19,7 +19,8 @@ dependencies = [
 
 [project.optional-dependencies]
 spectral = ["scipy", "scikit-learn"]
-all = ["arrowspace-mcp[spectral]"]
+skilled = ["arrowspace-skills>=0.4.0"]
+all = ["arrowspace-mcp[spectral,skilled]"]
 
 [build-system]
 requires = ["setuptools"]
@@ -31,6 +32,10 @@ include = ["arrowspace_mcp*"]
 
 [tool.setuptools.package-data]
 arrowspace_mcp = ["skills/*.md"]
+
+
+[tool.uv.sources]
+arrowspace-skills = { path = "../arrowspace-skills" }
 
 [dependency-groups]
 dev = [
