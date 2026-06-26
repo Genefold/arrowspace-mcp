@@ -79,7 +79,7 @@ def main() -> None:
         "--ttl",
         type=float,
         default=3600.0,
-        help="Index TTL in seconds (default: 3600 = 1 hour)",
+        help="Idle TTL in seconds (default: 3600 = 1 hour); index expires when unused for this duration",
     )
     parser.add_argument(
         "--max-indexes",

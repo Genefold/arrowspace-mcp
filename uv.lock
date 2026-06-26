@@ -197,9 +197,10 @@ wheels = [
 
 [[package]]
 name = "arrowspace-mcp"
-version = "0.1.0"
+version = "0.2.0"
 source = { editable = "." }
 dependencies = [
+    { name = "anyio" },
     { name = "arrowspace" },
     { name = "mcp" },
     { name = "numpy" },
@@ -227,9 +228,10 @@ dev = [
 
 [package.metadata]
 requires-dist = [
+    { name = "anyio" },
     { name = "arrowspace", specifier = ">=0.24" },
     { name = "arrowspace-mcp", extras = ["spectral"], marker = "extra == 'all'" },
-    { name = "mcp", specifier = ">=1.0" },
+    { name = "mcp", specifier = ">=1.28" },
     { name = "numpy" },
     { name = "scikit-learn", marker = "extra == 'spectral'" },
     { name = "scipy", marker = "extra == 'spectral'" },

@@ -30,7 +30,7 @@ def build_server(config: ServerConfig | None = None) -> FastMCP:
         try:
             yield ctx
         finally:
-            ctx.registry = None  # type: ignore[assignment]
+            ctx.registry.clear()
 
     server = FastMCP(
         "arrowspace-mcp",
@@ -55,9 +55,9 @@ def build_server(config: ServerConfig | None = None) -> FastMCP:
         app_ctx: AppContext = ctx.request_context.lifespan_context
 
         if vectors is not None and zarr_path is not None:
-            return {"error": "Provide either 'vectors' or 'zarr_path', not both."}
+            raise ValueError("Provide either 'vectors' or 'zarr_path', not both.")
         if vectors is None and zarr_path is None:
-            return {"error": "Provide either 'vectors' or 'zarr_path'."}
+            raise ValueError("Provide either 'vectors' or 'zarr_path'.")
 
         if zarr_path is not None:
             items = load_vectors_from_zzarr(
@@ -86,7 +86,6 @@ def build_server(config: ServerConfig | None = None) -> FastMCP:
         entry = app_ctx.registry.get(index_id)
         q = np.array(query, dtype=np.float64)
         hits = entry.aspace.search(q, entry.gl, tau=tau)
-        app_ctx.registry.touch(index_id)
         return {
             "hits": [{"index": int(idx), "score": float(sc)} for idx, sc in hits],
         }
@@ -100,7 +99,6 @@ def build_server(config: ServerConfig | None = None) -> FastMCP:
         app_ctx: AppContext = ctx.request_context.lifespan_context
         entry = app_ctx.registry.get(index_id)
         scores = entry.aspace.lambdas()
-        app_ctx.registry.touch(index_id)
         result: dict = {
             "n_items": int(entry.n_items),
             "lambdas": [float(s) for s in scores],
@@ -124,7 +122,6 @@ def build_server(config: ServerConfig | None = None) -> FastMCP:
         app_ctx: AppContext = ctx.request_context.lifespan_context
         entry = app_ctx.registry.get(index_id)
         ranked = entry.aspace.lambdas_sorted()
-        app_ctx.registry.touch(index_id)
         result: dict = {
             "n_items": int(entry.n_items),
             "ranked": [
@@ -137,7 +134,7 @@ def build_server(config: ServerConfig | None = None) -> FastMCP:
         return result
 
     @server.tool()
-    def spectral_analysis(
+    async def spectral_analysis(
         ctx: Context,
         index_id: str,
         mode: str = "spectrum",
@@ -151,13 +148,15 @@ def build_server(config: ServerConfig | None = None) -> FastMCP:
 
         app_ctx: AppContext = ctx.request_context.lifespan_context
         entry = app_ctx.registry.get(index_id)
-        app_ctx.registry.touch(index_id)
         csr = entry.gl.to_csr()
         L = sp.csr_matrix((csr[0], csr[1], csr[2]), shape=csr[3])
         n = L.shape[0]
 
         if mode == "spectrum":
-            eigvals = np.linalg.eigvalsh(L.toarray())
+            import anyio
+            eigvals = await anyio.to_thread.run_sync(
+                lambda: np.linalg.eigvalsh(L.toarray())
+            )
             spectral_gap = 0.0
             sorted_vals = sorted(eigvals)
             for i in range(len(sorted_vals) - 1):
@@ -174,7 +173,10 @@ def build_server(config: ServerConfig | None = None) -> FastMCP:
             }
 
         elif mode == "components":
-            eigvals = np.linalg.eigvalsh(L.toarray())
+            import anyio
+            eigvals = await anyio.to_thread.run_sync(
+                lambda: np.linalg.eigvalsh(L.toarray())
+            )
             zero_multiplicity = int(np.sum(np.abs(eigvals) < 1e-10))
             return {
                 "n_components": max(zero_multiplicity, 1),
@@ -227,7 +229,7 @@ def build_server(config: ServerConfig | None = None) -> FastMCP:
             from arrowspace_skills import suggest_params as _sp
             base = _sp(n_items, n_dims)
         except ImportError:
-            k = min(max(3, int(n_items / 50)), 25)
+            k = min(max(3, int(np.log2(n_items))), 50)
             topk = 3 if k <= 5 else 4
             eps = 0.1 if n_dims <= 128 else 0.2 if n_dims <= 768 else 0.5
             base = {"eps": eps, "k": k, "topk": topk, "p": 2.0, "sigma": None}

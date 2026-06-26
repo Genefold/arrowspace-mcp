@@ -88,5 +88,8 @@ class IndexRegistry:
         self._evict_expired()
         return dict(self._entries)
 
+    def clear(self) -> None:
+        self._entries.clear()
+
     def __len__(self) -> int:
         return len(self._entries)

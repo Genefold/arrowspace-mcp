@@ -272,18 +272,26 @@ async def test_suggest_params(server_params: StdioServerParameters) -> None:
             assert "topk" in result
             assert "sigma" in result
             assert "notes" in result
-            assert result["k"] == 25
+            assert result["k"] == 13
 
             result = _ok(await session.call_tool("suggest_params", {
                 "n_items": 10000,
                 "n_dims": 768,
                 "target_recall": 0.97,
             }))
-            assert result["k"] >= 25
+            assert result["k"] >= 13
             assert result["topk"] >= 4
 
             result = _ok(await session.call_tool("suggest_params", {
                 "n_items": 50,
                 "n_dims": 128,
             }))
-            assert result["k"] == 3
+            assert result["k"] == 5
+
+            result = _ok(await session.call_tool("suggest_params", {
+                "n_items": 10000,
+                "n_dims": 768,
+                "target_recall": 0.5,
+            }))
+            assert result["k"] < 13
+            assert "Reduced k" in result.get("notes", "")

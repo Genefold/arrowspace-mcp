@@ -55,7 +55,15 @@ def load_vectors_from_zzarr(
             f"Expected 2D array, got {len(z.shape)}D shape {z.shape}"
         )
 
-    row_start = row_start or 0
-    row_end = row_end or z.shape[0]
+    if row_start is None:
+        row_start = 0
+    if row_end is None:
+        row_end = z.shape[0]
+    if row_start < 0:
+        raise ZarrLoadError(f"row_start must be >= 0, got {row_start}")
+    if row_end > z.shape[0]:
+        raise ZarrLoadError(f"row_end ({row_end}) exceeds array rows ({z.shape[0]})")
+    if row_start >= row_end:
+        raise ZarrLoadError(f"row_start ({row_start}) >= row_end ({row_end})")
     arr = z[row_start:row_end]
     return np.ascontiguousarray(arr, dtype=np.float64)

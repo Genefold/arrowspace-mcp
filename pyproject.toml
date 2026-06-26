@@ -1,6 +1,6 @@
 [project]
 name = "arrowspace-mcp"
-version = "0.1.0"
+version = "0.2.0"
 description = "MCP server for ArrowSpace spectral vector search"
 readme = "README.md"
 requires-python = ">=3.12"
@@ -9,8 +9,9 @@ authors = [
     { name = "Genefold AI Ltd", email = "coderbot@genefold.ai" },
 ]
 dependencies = [
+    "anyio",
     "arrowspace>=0.24",
-    "mcp>=1.0",
+    "mcp>=1.28",
     "numpy",
     "uvicorn",
     "zarr>=3.0",
