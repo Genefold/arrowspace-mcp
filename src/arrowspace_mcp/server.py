@@ -218,4 +218,59 @@ def build_server(config: ServerConfig | None = None) -> FastMCP:
         app_ctx.registry.remove(index_id)
         return {"status": "deleted", "index_id": index_id}
 
+    import importlib.resources as _res
+
+    _PACKAGE = "arrowspace_mcp"
+
+    @server.resource(
+        "arrowspace://skills/core",
+        name="core",
+        mime_type="text/markdown",
+        description="Building an ArrowSpace index: builder, configuration, graph construction",
+    )
+    def _skill_core() -> str:
+        return _res.files(_PACKAGE).joinpath("skills/arrowspace-core.md").read_text(encoding="utf-8")
+
+    @server.resource(
+        "arrowspace://skills/search",
+        name="search",
+        mime_type="text/markdown",
+        description="Querying ArrowSpace with λτ scoring and tau tuning",
+    )
+    def _skill_search() -> str:
+        return _res.files(_PACKAGE).joinpath("skills/arrowspace-search.md").read_text(encoding="utf-8")
+
+    @server.resource(
+        "arrowspace://skills/spectral",
+        name="spectral",
+        mime_type="text/markdown",
+        description="Spectral analysis, diffusion, and eigenstructure",
+    )
+    def _skill_spectral() -> str:
+        return _res.files(_PACKAGE).joinpath("skills/arrowspace-spectral.md").read_text(encoding="utf-8")
+
+    @server.resource(
+        "arrowspace://skills/hyperparameters",
+        name="hyperparameters",
+        mime_type="text/markdown",
+        description="ArrowSpace parameter tuning guide",
+    )
+    def _skill_hyperparams() -> str:
+        return _res.files(_PACKAGE).joinpath("skills/HYPERPARAMETERS.md").read_text(encoding="utf-8")
+
+    @server.resource(
+        "arrowspace://paper/abstract",
+        name="joss-abstract",
+        mime_type="text/plain",
+        description="JOSS paper abstract for ArrowSpace",
+    )
+    def _joss_abstract() -> str:
+        return (
+            "ArrowSpace is a vector database and search library that augments "
+            "nearest-neighbour search with spectral graph features. It computes a "
+            "Laplacian over the item graph and uses the Rayleigh quotient to produce "
+            "a lambda-tau (λτ) score per item, enabling search that respects both "
+            "semantic similarity and structural role."
+        )
+
     return server

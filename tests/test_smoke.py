@@ -214,3 +214,43 @@ async def test_file_path_input(
             }))
             assert "index_id" in result
             assert result["n_items"] == 2
+
+
+@pytest.mark.asyncio
+async def test_list_resources(server_params: StdioServerParameters) -> None:
+    async with stdio_client(server_params) as (read, write):
+        async with ClientSession(read, write) as session:
+            await session.initialize()
+            result = await session.list_resources()
+            uris = [str(r.uri) for r in result.resources]
+            for uri in (
+                "arrowspace://skills/core",
+                "arrowspace://skills/search",
+                "arrowspace://skills/spectral",
+                "arrowspace://skills/hyperparameters",
+                "arrowspace://paper/abstract",
+            ):
+                assert uri in uris, f"Missing resource: {uri}"
+
+
+@pytest.mark.asyncio
+async def test_read_skill_resource(server_params: StdioServerParameters) -> None:
+    async with stdio_client(server_params) as (read, write):
+        async with ClientSession(read, write) as session:
+            await session.initialize()
+            result = await session.read_resource("arrowspace://skills/core")
+            assert len(result.contents) == 1
+            text = result.contents[0].text
+            assert len(text) > 100
+            assert "ArrowSpace" in text
+
+
+@pytest.mark.asyncio
+async def test_read_paper_abstract(server_params: StdioServerParameters) -> None:
+    async with stdio_client(server_params) as (read, write):
+        async with ClientSession(read, write) as session:
+            await session.initialize()
+            result = await session.read_resource("arrowspace://paper/abstract")
+            text = result.contents[0].text
+            assert "λτ" in text
+            assert "Rayleigh quotient" in text

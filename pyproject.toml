@@ -27,6 +27,9 @@ build-backend = "setuptools.build_meta"
 where = ["src"]
 include = ["arrowspace_mcp*"]
 
+[tool.setuptools.package-data]
+arrowspace_mcp = ["skills/*.md"]
+
 [project.scripts]
 arrowspace-mcp = "arrowspace_mcp.__main__:main"
 
