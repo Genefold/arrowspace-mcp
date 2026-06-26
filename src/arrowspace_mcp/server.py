@@ -9,7 +9,7 @@ from mcp.server import FastMCP
 from mcp.server.fastmcp import Context
 
 from arrowspace_mcp.config import ServerConfig
-from arrowspace_mcp.file_loader import load_vectors_from_file
+from arrowspace_mcp.zzarr_loader import load_vectors_from_zzarr
 from arrowspace_mcp.registry import IndexRegistry
 
 
@@ -43,8 +43,7 @@ def build_server(config: ServerConfig | None = None) -> FastMCP:
     def build_index(
         ctx: Context,
         vectors: list[list[float]] | None = None,
-        file_path: str | None = None,
-        file_format: str = "npy",
+        zarr_path: str | None = None,
         eps: float = 1.0,
         k: int = 6,
         topk: int = 3,
@@ -55,14 +54,14 @@ def build_server(config: ServerConfig | None = None) -> FastMCP:
 
         app_ctx: AppContext = ctx.request_context.lifespan_context
 
-        if vectors is not None and file_path is not None:
-            return {"error": "Provide either 'vectors' or 'file_path', not both."}
-        if vectors is None and file_path is None:
-            return {"error": "Provide either 'vectors' or 'file_path'."}
+        if vectors is not None and zarr_path is not None:
+            return {"error": "Provide either 'vectors' or 'zarr_path', not both."}
+        if vectors is None and zarr_path is None:
+            return {"error": "Provide either 'vectors' or 'zarr_path'."}
 
-        if file_path is not None:
-            items = load_vectors_from_file(
-                file_path, file_format, app_ctx.allowed_paths
+        if zarr_path is not None:
+            items = load_vectors_from_zzarr(
+                zarr_path, app_ctx.allowed_paths
             )
         else:
             items = np.array(vectors, dtype=np.float64)

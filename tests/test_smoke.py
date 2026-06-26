@@ -188,12 +188,14 @@ async def test_delete_index(server_params: StdioServerParameters) -> None:
 
 
 @pytest.mark.asyncio
-async def test_file_path_input(
+async def test_zzarr_input(
     server_params: StdioServerParameters,
     tmp_path,
 ) -> None:
-    npy_path = tmp_path / "test.npy"
-    np.save(str(npy_path), np.array([[1.0, 0.0], [0.0, 1.0]], dtype=np.float64))
+    zarr = pytest.importorskip("zarr")
+    zarr_dir = tmp_path / "test.zzarr"
+    arr = zarr.open(str(zarr_dir), mode="w", shape=(2, 2), dtype="float64")
+    arr[:] = [[1.0, 0.0], [0.0, 1.0]]
 
     params = StdioServerParameters(
         command="uv",
@@ -208,8 +210,7 @@ async def test_file_path_input(
         async with ClientSession(read, write) as session:
             await session.initialize()
             result = _ok(await session.call_tool("build_index", {
-                "file_path": str(npy_path),
-                "file_format": "npy",
+                "zarr_path": str(zarr_dir),
                 "k": 1,
             }))
             assert "index_id" in result
