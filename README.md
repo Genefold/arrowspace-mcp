@@ -7,7 +7,7 @@ Exposes ArrowSpace's graph-Laplacian-based spectral search as MCP tools for AI a
 ## Quick start
 
 ```bash
-uv run arrowspace_mcp
+uv run arrowspace-mcp
 ```
 
 ## Client configuration
