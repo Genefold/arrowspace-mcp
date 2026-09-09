@@ -16,10 +16,6 @@ cd arrowspace-mcp
 uv sync --extra spectral
 uv run arrowspace-mcp
 
-# Run with skill-based parameter suggestions
-uv sync --extra skilled
-uv run arrowspace-mcp
-
 # Run with everything
 uv sync --extra all
 uv run arrowspace-mcp
@@ -118,14 +114,13 @@ uv run arrowspace-mcp
 
 Skill resources (`arrowspace://skills/*`) are served from the
 [`arrowspace-skills`](https://github.com/Genefold/arrowspace-skills) submodule.
-When installed from PyPI (e.g. via `uvx`), they are read from the bundled
-`arrowspace_skills` package instead — install the `skilled` extra for that:
-`uvx arrowspace-mcp[skilled]`.
+The submodule is not included in PyPI distributions; clone the repo with
+`--recurse-submodules` (or run `git submodule update --init`) to use them.
 
 ### With optional deps for spectral analysis
 
 ```bash
-uv sync --extra spectral --extra skilled
+uv sync --extra spectral
 ```
 
 ## License

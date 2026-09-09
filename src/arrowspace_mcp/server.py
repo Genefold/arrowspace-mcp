@@ -225,14 +225,11 @@ def build_server(config: ServerConfig | None = None) -> FastMCP:
         n_dims: int,
         target_recall: float | None = None,
     ) -> dict:
-        try:
-            from arrowspace_skills import suggest_params as _sp
-            base = _sp(n_items, n_dims)
-        except ImportError:
-            k = min(max(3, int(np.log2(n_items))), 50)
-            topk = 3 if k <= 5 else 4
-            eps = 0.1 if n_dims <= 128 else 0.2 if n_dims <= 768 else 0.5
-            base = {"eps": eps, "k": k, "topk": topk, "p": 2.0, "sigma": None}
+        # Aligned with arrowspace 0.28 builder defaults
+        # (arrowspace-skills/skills/scripts/builder.py::suggest_params).
+        k = min(max(12, int(n_items / 50)), 25)
+        eps = 0.5 if n_dims <= 128 else 1.0 if n_dims <= 768 else 2.0
+        base = {"eps": eps, "k": k, "topk": 6, "p": 2.0, "sigma": None}
 
         notes = []
         if target_recall is not None:
@@ -256,7 +253,6 @@ def build_server(config: ServerConfig | None = None) -> FastMCP:
         base["notes"] = " ".join(notes) if notes else "Defaults suitable for this dataset."
         return base
 
-    import importlib.resources as _res
     from pathlib import Path
 
     _SKILL_DOC_PATHS = {
@@ -267,19 +263,14 @@ def build_server(config: ServerConfig | None = None) -> FastMCP:
     }
 
     def _skill_doc(key: str) -> str:
-        rel = _SKILL_DOC_PATHS[key]
         repo_root = Path(__file__).resolve().parents[2]
-        submodule_file = repo_root / "arrowspace-skills" / rel
+        submodule_file = repo_root / "arrowspace-skills" / _SKILL_DOC_PATHS[key]
         if submodule_file.is_file():
             return submodule_file.read_text(encoding="utf-8")
-        try:
-            return _res.files("arrowspace_skills").joinpath(rel).read_text(encoding="utf-8")
-        except (FileNotFoundError, ModuleNotFoundError) as exc:
-            raise RuntimeError(
-                "Skill docs unavailable: run 'git submodule update --init' in the "
-                "arrowspace-mcp checkout, or install the arrowspace-skills package "
-                "(pip install arrowspace-mcp[skilled])."
-            ) from exc
+        raise RuntimeError(
+            "Skill docs unavailable: the arrowspace-skills submodule is missing. "
+            "Run 'git submodule update --init' in the arrowspace-mcp checkout."
+        )
 
     @server.resource(
         "arrowspace://skills/core",
