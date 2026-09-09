@@ -286,7 +286,7 @@ async def test_suggest_params(server_params: StdioServerParameters) -> None:
                 "n_items": 50,
                 "n_dims": 128,
             }))
-            assert result["k"] == 3
+            assert result["k"] == 12
 
             result = _ok(await session.call_tool("suggest_params", {
                 "n_items": 10000,

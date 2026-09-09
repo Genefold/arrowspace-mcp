@@ -47,7 +47,7 @@ wheels = [
 
 [[package]]
 name = "arrowspace-mcp"
-version = "0.4.0"
+version = "0.28.1"
 source = { editable = "." }
 dependencies = [
     { name = "anyio" },
@@ -85,7 +85,7 @@ requires-dist = [
     { name = "anyio" },
     { name = "arrowspace", specifier = ">=0.28.1" },
     { name = "arrowspace-mcp", extras = ["spectral", "skilled"], marker = "extra == 'all'" },
-    { name = "arrowspace-skills", marker = "extra == 'skilled'", directory = "../arrowspace-skills" },
+    { name = "arrowspace-skills", marker = "extra == 'skilled'", directory = "arrowspace-skills" },
     { name = "mcp", specifier = ">=1.28" },
     { name = "numpy" },
     { name = "scikit-learn", marker = "extra == 'spectral'" },
@@ -105,8 +105,8 @@ dev = [
 
 [[package]]
 name = "arrowspace-skills"
-version = "0.4.0"
-source = { directory = "../arrowspace-skills" }
+version = "0.28.1"
+source = { directory = "arrowspace-skills" }
 dependencies = [
     { name = "arrowspace" },
     { name = "numpy" },
@@ -114,8 +114,8 @@ dependencies = [
 
 [package.metadata]
 requires-dist = [
-    { name = "arrowspace", specifier = ">=0.24" },
-    { name = "arrowspace-tuner", marker = "extra == 'tuner'", specifier = ">=0.3" },
+    { name = "arrowspace", specifier = ">=0.28" },
+    { name = "arrowspace-tuner", marker = "extra == 'tuner'", specifier = ">=0.4.1" },
     { name = "numpy" },
 ]
 provides-extras = ["tuner"]

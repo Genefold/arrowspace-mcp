@@ -257,8 +257,29 @@ def build_server(config: ServerConfig | None = None) -> FastMCP:
         return base
 
     import importlib.resources as _res
+    from pathlib import Path
 
-    _PACKAGE = "arrowspace_mcp"
+    _SKILL_DOC_PATHS = {
+        "core": "skills/arrowspace-core.md",
+        "search": "skills/arrowspace-search.md",
+        "spectral": "skills/arrowspace-spectral.md",
+        "hyperparameters": "HYPERPARAMETERS.md",
+    }
+
+    def _skill_doc(key: str) -> str:
+        rel = _SKILL_DOC_PATHS[key]
+        repo_root = Path(__file__).resolve().parents[2]
+        submodule_file = repo_root / "arrowspace-skills" / rel
+        if submodule_file.is_file():
+            return submodule_file.read_text(encoding="utf-8")
+        try:
+            return _res.files("arrowspace_skills").joinpath(rel).read_text(encoding="utf-8")
+        except (FileNotFoundError, ModuleNotFoundError) as exc:
+            raise RuntimeError(
+                "Skill docs unavailable: run 'git submodule update --init' in the "
+                "arrowspace-mcp checkout, or install the arrowspace-skills package "
+                "(pip install arrowspace-mcp[skilled])."
+            ) from exc
 
     @server.resource(
         "arrowspace://skills/core",
@@ -267,7 +288,7 @@ def build_server(config: ServerConfig | None = None) -> FastMCP:
         description="Building an ArrowSpace index: builder, configuration, graph construction",
     )
     def _skill_core() -> str:
-        return _res.files(_PACKAGE).joinpath("skills/arrowspace-core.md").read_text(encoding="utf-8")
+        return _skill_doc("core")
 
     @server.resource(
         "arrowspace://skills/search",
@@ -276,7 +297,7 @@ def build_server(config: ServerConfig | None = None) -> FastMCP:
         description="Querying ArrowSpace with λτ scoring and tau tuning",
     )
     def _skill_search() -> str:
-        return _res.files(_PACKAGE).joinpath("skills/arrowspace-search.md").read_text(encoding="utf-8")
+        return _skill_doc("search")
 
     @server.resource(
         "arrowspace://skills/spectral",
@@ -285,7 +306,7 @@ def build_server(config: ServerConfig | None = None) -> FastMCP:
         description="Spectral analysis, diffusion, and eigenstructure",
     )
     def _skill_spectral() -> str:
-        return _res.files(_PACKAGE).joinpath("skills/arrowspace-spectral.md").read_text(encoding="utf-8")
+        return _skill_doc("spectral")
 
     @server.resource(
         "arrowspace://skills/hyperparameters",
@@ -294,7 +315,7 @@ def build_server(config: ServerConfig | None = None) -> FastMCP:
         description="ArrowSpace parameter tuning guide",
     )
     def _skill_hyperparams() -> str:
-        return _res.files(_PACKAGE).joinpath("skills/HYPERPARAMETERS.md").read_text(encoding="utf-8")
+        return _skill_doc("hyperparameters")
 
     @server.resource(
         "arrowspace://paper/abstract",

@@ -104,11 +104,18 @@ Connect via `http://<host>:8765/sse` with messages at `http://<host>:8765/messag
 ## Development
 
 ```bash
-git clone https://github.com/Genefold/arrowspace-mcp
+git clone --recurse-submodules https://github.com/Genefold/arrowspace-mcp
 cd arrowspace-mcp
+git submodule update --init   # if cloned without --recurse-submodules
 uv sync
 uv run arrowspace-mcp
 ```
+
+Skill resources (`arrowspace://skills/*`) are served from the
+[`arrowspace-skills`](https://github.com/Genefold/arrowspace-skills) submodule.
+When installed from PyPI (e.g. via `uvx`), they are read from the bundled
+`arrowspace_skills` package instead — install the `skilled` extra for that:
+`uvx arrowspace-mcp[skilled]`.
 
 ### With optional deps for spectral analysis
 

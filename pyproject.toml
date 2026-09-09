@@ -30,12 +30,8 @@ build-backend = "setuptools.build_meta"
 where = ["src"]
 include = ["arrowspace_mcp*"]
 
-[tool.setuptools.package-data]
-arrowspace_mcp = ["skills/*.md"]
-
-
 [tool.uv.sources]
-arrowspace-skills = { path = "../arrowspace-skills" }
+arrowspace-skills = { path = "arrowspace-skills" }
 
 [dependency-groups]
 dev = [

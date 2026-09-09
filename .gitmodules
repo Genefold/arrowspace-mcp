@@ -1,0 +1,3 @@
+[submodule "arrowspace-skills"]
+	path = arrowspace-skills
+	url = git@github.com-coderbot:Genefold/arrowspace-skills.git
