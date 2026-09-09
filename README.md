@@ -7,6 +7,11 @@ Exposes ArrowSpace's graph-Laplacian-based spectral search as MCP tools for AI a
 ## Quick start
 
 ```bash
+# Clone with the arrowspace-skills submodule
+git clone --recurse-submodules https://github.com/Genefold/arrowspace-mcp
+cd arrowspace-mcp
+# (or, if already cloned: git submodule update --init)
+
 # Run with spectral analysis support (scipy, scikit-learn)
 uv sync --extra spectral
 uv run arrowspace-mcp
