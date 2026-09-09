@@ -8,7 +8,7 @@ You have a built ArrowSpace index and need to retrieve items similar to a query 
 
 ## How it works
 
-Each item is scored by a combination of its distance to the query and its spectral role in the graph (expressed by that item's $$λτ$$ score). The `tau` parameter controls the spectral gate: higher tau values include more items; lower tau values restrict to spectrally coherent candidates.
+Each item is scored by a combination of its distance to the query and its spectral role in the graph (expressed by that item's $$λτ$$ score). The `tau` parameter is an alpha-beta blend weight: `tau` is the cosine-similarity weight, and the spectral $$λτ$$ weight is `1 - tau`. `tau = 1.0` equals pure cosine ranking; lowering `tau` adds spectral blending.
 
 ## Steps
 
@@ -18,9 +18,10 @@ Each item is scored by a combination of its distance to the query and its spectr
 
 ## Tuning tau
 
-- Start at `tau = 1.0`.
-- Lower tau (~0.1–0.5) for precision (fewer, more relevant results).
-- Higher tau (~2.0–5.0) for recall (more results, lower precision).
+- Start at `tau = 1.0` (pure cosine ranking).
+- Lower tau (~0.5–0.8) to blend in spectral structure — items with matching graph role are boosted.
+- Very low tau (< 0.3) makes the ranking dominated by the $$λτ$$ spectral score.
+- The number of returned hits is controlled by `topk` (build time) or the `k` argument, not by `tau`.
 - Use `tune_tau()` from `arrowspace_skills` for grid search if you have labelled queries.
 
 ## Interpreting scores

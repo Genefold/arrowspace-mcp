@@ -1,6 +1,6 @@
 [project]
 name = "arrowspace-mcp"
-version = "0.3.0"
+version = "0.28.1"
 description = "MCP server for ArrowSpace spectral vector search"
 readme = "README.md"
 requires-python = ">=3.12"
@@ -10,7 +10,7 @@ authors = [
 ]
 dependencies = [
     "anyio",
-    "arrowspace>=0.24",
+    "arrowspace>=0.28.1",
     "mcp>=1.28",
     "numpy",
     "uvicorn",

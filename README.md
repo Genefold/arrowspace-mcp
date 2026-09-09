@@ -86,7 +86,7 @@ Add to Cursor MCP configuration:
 | Tool | Description |
 |------|-------------|
 | `build_index` | Build a spectral index from vectors (inline or Zarr path) |
-| `search` | Query with λτ spectral gating |
+| `search` | Query with blended cosine + λτ spectral scoring |
 | `lambdas` | Per-item λτ scores with optional summary stats |
 | `lambdas_sorted` | Sorted λτ scores (least to most coherent) |
 | `spectral_analysis` | Laplacian eigenvalue spectrum, components, or clusters |
