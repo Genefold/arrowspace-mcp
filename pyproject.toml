@@ -10,7 +10,7 @@ authors = [
 ]
 dependencies = [
     "anyio",
-    "arrowspace>=0.28.1",
+    "arrowspace>=0.30.0",
     "mcp>=1.28",
     "numpy",
     "uvicorn",

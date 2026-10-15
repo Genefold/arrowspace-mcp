@@ -1,5 +1,5 @@
 version = 1
-revision = 3
+revision = 5
 requires-python = ">=3.12"
 resolution-markers = [
     "python_full_version >= '3.14' and sys_platform == 'win32'",
@@ -32,7 +32,7 @@ wheels = [
 
 [[package]]
 name = "arrowspace"
-version = "0.28.1"
+version = "0.30.0"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "numpy" },
@@ -40,9 +40,25 @@ dependencies = [
     { name = "pyarrow" },
     { name = "scikit-learn" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/b2/9b/b48e7cee33ef72a40a0a6a056518e4af04e5c97697e425b17a6c2f789eae/arrowspace-0.28.1.tar.gz", hash = "sha256:93abaa21b2a701236812fa5bfd2e99eb2a688c58d208f6d627071c9be9e199ff", size = 18668350, upload-time = "2026-09-08T09:48:13.095Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/ea/00/d6a945e2ae3f080380ed7ceb08b16432ed941805ebe3166c8d96f852a9fb/arrowspace-0.30.0.tar.gz", hash = "sha256:d39bcb66074b7602a0849e87ff358b16b1ebc6f147e72eb49634248aa1e54f3a", size = 18672961, upload-time = "2026-10-15T18:52:22.908Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/67/63/8f3111f14b28d7042bf77016de005423db4703725ddb3421424f6c9af049/arrowspace-0.28.1-cp314-cp314-macosx_11_0_arm64.whl", hash = "sha256:392ac5c6b1011bf08ea0630476b1542c37b6e1b7e2e56f4db016ecd0ec17b89c", size = 3261161, upload-time = "2026-09-08T09:48:08.268Z" },
+    { url = "https://files.pythonhosted.org/packages/ac/cb/c459ad02f95942a6bbf87399e7a841cf4b96962a8c9d613eea1d352ac7d8/arrowspace-0.30.0-cp312-cp312-macosx_10_12_x86_64.whl", hash = "sha256:162567bda21c5fe0b8add84ee92f74d449c744400c10b07954cb47698866a570", size = 3632950, upload-time = "2026-10-15T18:51:48.47Z" },
+    { url = "https://files.pythonhosted.org/packages/40/86/f9e917bfd05b8902f2024b35c669f036c4c688a5b96a914c26884f9e96e9/arrowspace-0.30.0-cp312-cp312-macosx_11_0_arm64.whl", hash = "sha256:038c5dbddcfe1b14dba79c095848f853dbe3935394f3b85a4aa5cff647c62389", size = 3388712, upload-time = "2026-10-15T18:51:50.482Z" },
+    { url = "https://files.pythonhosted.org/packages/5c/62/8b6e27e7f534de2e735cf084340fd499f645850c3022e50312bf1a53c767/arrowspace-0.30.0-cp312-cp312-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:3e3af9e29ae1a5ca122a7bdb2451d4d089b529db1eaff350339b6e4bcc0acf28", size = 3587885, upload-time = "2026-10-15T18:51:52.289Z" },
+    { url = "https://files.pythonhosted.org/packages/41/c9/e8f6084ed5655e2186f7fcd2d680f4a5a547dc35fa973cb5ee73d16c910b/arrowspace-0.30.0-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:29345e1d7e6f71ee69b314bd3da9ca1d3b2a670f65a364f34b1c873d88c10f23", size = 3792287, upload-time = "2026-10-15T18:51:54.059Z" },
+    { url = "https://files.pythonhosted.org/packages/9e/1e/a16a4033ec2ad91838d463debfc34564e06178ca32c4425a31797c69538e/arrowspace-0.30.0-cp312-cp312-win_amd64.whl", hash = "sha256:ab14797d8c7ce1732368801654e3c55939e0ce52adae63b79676d9734c649d96", size = 3805881, upload-time = "2026-10-15T18:51:55.841Z" },
+    { url = "https://files.pythonhosted.org/packages/8f/8f/dc7f51c5beb858b36a44424ec108c48968422edd68d51a0ea2c44fdf2819/arrowspace-0.30.0-cp313-cp313-macosx_10_12_x86_64.whl", hash = "sha256:e21f5ca3f8932aaaa088a82dbe0d18802c17080a72817289245a1610fb0106c3", size = 3634375, upload-time = "2026-10-15T18:51:57.656Z" },
+    { url = "https://files.pythonhosted.org/packages/ca/24/5a745cb03c7338af5ce0a1858dfdd0ef62fe39c53e0cad47757d247c6f8f/arrowspace-0.30.0-cp313-cp313-macosx_11_0_arm64.whl", hash = "sha256:1c6172b83cf31405e4072d4e1e45ac4db877706fa99e884b1e95bdb2a8d8233e", size = 3389373, upload-time = "2026-10-15T18:51:59.643Z" },
+    { url = "https://files.pythonhosted.org/packages/2d/bf/032da67b65f4a23893fb3a54a3c24d3378c85b959b62c68284bd39986857/arrowspace-0.30.0-cp313-cp313-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:d0b43ce8a3456f8b8661da46284f850950bea70106476c3afd4e3474d00d4e8d", size = 3589339, upload-time = "2026-10-15T18:52:01.762Z" },
+    { url = "https://files.pythonhosted.org/packages/42/7e/61485c5b41c384637f46b230e08f6f20458e9a14353ec01cdd881fe6ee04/arrowspace-0.30.0-cp313-cp313-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:5c636dbd94d2f31979eae6cfedfdafd4b18c1814ceaa247cd812e6ba3f01cb37", size = 3793151, upload-time = "2026-10-15T18:52:03.916Z" },
+    { url = "https://files.pythonhosted.org/packages/98/06/6dd4849f722e9272b090687b08133edcd6877370e7459a2f104f76f63df9/arrowspace-0.30.0-cp313-cp313-win_amd64.whl", hash = "sha256:e6746f95702823d1210768029d06ebaa0b737ce98052e8cf98eafefa0fcd5aff", size = 3806454, upload-time = "2026-10-15T18:52:05.927Z" },
+    { url = "https://files.pythonhosted.org/packages/58/85/8bd6f9155b05eb9a9d699a601c3c4af6316d68067566035383f3d8794c42/arrowspace-0.30.0-cp314-cp314-macosx_10_12_x86_64.whl", hash = "sha256:6e60dbbf4fbb8bec08d9f91b76988cb4e1223cd8615e67eb071aaacb8dbf8b4a", size = 3633158, upload-time = "2026-10-15T18:52:08.736Z" },
+    { url = "https://files.pythonhosted.org/packages/ce/aa/60e492698962185cedc71d691f1b9d3a06c565f5e2881725116be11ba23d/arrowspace-0.30.0-cp314-cp314-macosx_11_0_arm64.whl", hash = "sha256:9daf7ab9bb3afe82dfb90ecaf0e24ba0690a3c2916928f78ef1761272bf59ef5", size = 3389078, upload-time = "2026-10-15T18:52:10.448Z" },
+    { url = "https://files.pythonhosted.org/packages/9e/9d/6a6419a8620c80c1f83a707ec846d4cc921ddf1a9a5526ba6972af78729b/arrowspace-0.30.0-cp314-cp314-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:a65fa4cdfbe353f5fed826f6f70d3cf743e2889e96597bf4714bc17ced5ea2c3", size = 3587848, upload-time = "2026-10-15T18:52:12.424Z" },
+    { url = "https://files.pythonhosted.org/packages/d0/30/30f7208af37fa411ec0f554ea03384f46299acc7b1163b4d874efb654890/arrowspace-0.30.0-cp314-cp314-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:b2f8d30e681431a6ff901ce02e915631e9e4a1bd1538af800b42dbd2e35bb469", size = 3791504, upload-time = "2026-10-15T18:52:14.267Z" },
+    { url = "https://files.pythonhosted.org/packages/ec/77/49051b827f88da31a5f08e1c0dd71fc783ee1f372d4078be535de770ff6e/arrowspace-0.30.0-cp314-cp314-win_amd64.whl", hash = "sha256:f5d468b025e1b95673ca9c4e28ccaf8efb219350cde2bf4678c5a507a45eb5b5", size = 3805578, upload-time = "2026-10-15T18:52:16.346Z" },
+    { url = "https://files.pythonhosted.org/packages/5a/6c/ca9ca42fb39c5dd881b54eff2c41301f8ca7db105569c31c3f3abb97e76d/arrowspace-0.30.0-cp314-cp314t-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:215a42ef99072d473cd4e31b75e37a0fe5d3f2b9f25310286623932c30ee1ac6", size = 3582761, upload-time = "2026-10-15T18:52:18.218Z" },
+    { url = "https://files.pythonhosted.org/packages/be/a0/c26c1c1a911f2c4feda069ea99cabfa5b71a0e7652b78438c1b64e1ac194/arrowspace-0.30.0-cp314-cp314t-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:b35b06dcf8d5a84224169369f175f83db18654a1cf9cc806b0c7f2e5ace56a60", size = 3788802, upload-time = "2026-10-15T18:52:20.6Z" },
 ]
 
 [[package]]
@@ -79,7 +95,7 @@ dev = [
 [package.metadata]
 requires-dist = [
     { name = "anyio" },
-    { name = "arrowspace", specifier = ">=0.28.1" },
+    { name = "arrowspace", specifier = ">=0.30.0" },
     { name = "arrowspace-mcp", extras = ["spectral"], marker = "extra == 'all'" },
     { name = "mcp", specifier = ">=1.28" },
     { name = "numpy" },
