@@ -4,6 +4,24 @@ MCP (Model Context Protocol) server for [ArrowSpace](https://github.com/Mec-iS/a
 
 Exposes ArrowSpace's graph-Laplacian-based spectral search as MCP tools for AI agents.
 
+## Choose by input format
+
+Use the following workflow when choosing how to process user-provided data:
+
+| Input | Recommended workflow |
+|-------|----------------------|
+| Zarr files | Use [arro-server](https://github.com/Genefold/arro-server) through its REST API. |
+| Already embedded vectors in `.npy` files | Use Python ArrowSpace, following the [pyarrowspace tests](https://github.com/tuned-org-uk/pyarrowspace/tree/main/tests). |
+| Raw text | Suggest embedding the text first with MiniLM (for example, `sentence-transformers/all-MiniLM-L6-v2`), `ibm-granite/granite-embedding-30m-english`, or `Snowflake/snowflake-arctic-embed-s`. Save the embeddings as `.npy` and follow the Python ArrowSpace workflow. |
+
+For text retrieval, embed queries with the same model and its prescribed query
+preprocessing. Rust and Python ArrowSpace provide Parquet persistence through
+the `storage` feature; this is distinct from arro-server's REST/Zarr workflow.
+
+These are workflow recommendations for agents. This MCP server currently accepts
+inline vectors or a Zarr path; it does not automatically route requests to
+arro-server, load `.npy` files, or embed text.
+
 ## Quick start
 
 ```bash
