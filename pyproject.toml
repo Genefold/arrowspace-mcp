@@ -1,6 +1,6 @@
 [project]
 name = "arrowspace-mcp"
-version = "0.28.1"
+version = "0.30.0"
 description = "MCP server for ArrowSpace spectral vector search"
 readme = "README.md"
 requires-python = ">=3.12"
@@ -11,6 +11,8 @@ authors = [
 dependencies = [
     "anyio",
     "arrowspace>=0.30.0",
+    "filelock>=3.20",
+    "httpx>=0.28.1",
     "mcp>=1.28",
     "numpy",
     "uvicorn",
@@ -19,7 +21,8 @@ dependencies = [
 
 [project.optional-dependencies]
 spectral = ["scipy", "scikit-learn"]
-all = ["arrowspace-mcp[spectral]"]
+embeddings = ["sentence-transformers>=5.2,<6", "transformers>=4.41,<5"]
+all = ["arrowspace-mcp[spectral,embeddings]"]
 
 [build-system]
 requires = ["setuptools"]
@@ -39,6 +42,8 @@ dev = [
 
 [project.scripts]
 arrowspace-mcp = "arrowspace_mcp.__main__:main"
+arrowspace-embed = "arrowspace_mcp.embeddings:main"
+arrowspace-ingest = "arrowspace_mcp.ingestion:main"
 
 [project.urls]
 Homepage = "https://github.com/Genefold/arrowspace-mcp"
